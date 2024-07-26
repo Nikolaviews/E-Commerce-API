@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +41,15 @@ public class AuthController {
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+    @PostMapping("/users")
+    public ResponseEntity<String> registerUsersBulk(@RequestBody List<User> users) {
+        for (User user : users) {
+            // Optional: Add validation logic for user data here
+            userService.saveUser(user);
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body("Users registered successfully");
     }
 
     @GetMapping("/users/{id}")
